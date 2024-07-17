@@ -1,0 +1,101 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+
+            <c-card-header >
+                <c-row *ngIf="presentUser">
+                    <c-col sm="12" style="text-align: center;">
+                        <h4 >{{presentUser.firstname +" "+presentUser.lastname }}'s Evaluation</h4>
+                    </c-col>
+                </c-row>
+            </c-card-header>
+            <c-card-body>
+
+                
+                <c-row style="align-items: center;">
+                    <c-col [md]="4">
+                        <!-- <label cLabel for="su">Select supervisor:</label>
+                        <select aria-label="Small select example" cSelect sizing="sm" required name="supervisor"
+                        
+                            [(ngModel)]="formm.id_appraiser">
+                            <option *ngFor="let supervisor of supervisors" [value]="supervisor.id">
+                                {{supervisor.firstname +" "+ supervisor.lastname }}
+                            </option>
+                        </select> -->
+                        <label cLabel for="su">Your supervisor: </label>
+                        <input cFormControl type="text" [(ngModel)]="formm.id_appraiser" [value]="appraiserName" disabled/>
+                    </c-col>
+                </c-row>
+                <br>
+
+                <table [hover]="false" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0">
+                    <thead cTableColor="dark">
+                        <tr class="align-middle">
+                            <th>#</th>
+                            <!-- <th>Categories</th> -->
+                            <th class="text-center">Competencies</th>
+                            <th class="text-center">Level</th>
+                            <th class="text-center">Self-Rating</th>
+                            <th class="text-center">Employee Comments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let gradeCompetency of formm.evaluationCompetencies">
+                            <tr>
+                                <td><input type="checkbox"  [(ngModel)]="gradeCompetency.selected" style="width: 20px; height: 20px;" /></td>
+                                <td>{{ gradeCompetency.competency.name }}</td>
+                                <td>{{ gradeCompetency.level }}</td>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example" [(ngModel)]="gradeCompetency.employee_mark"
+                                        [disabled]="!gradeCompetency.selected" style="min-width: 80px;">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{option}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.employee_comment" rows="3" cols="70" [disabled]="!gradeCompetency.selected"></textarea>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+                <br>
+
+                <c-row style="align-items: center;">
+                    <c-col [md]="6" style="display: flex;  align-items: center;">
+                        <button cButton color="secondary" (click)="toggleSaveEvalutioneModal()">Save</button>
+                        <button cButton color="success" style="margin-left: 10px;" (click)="toggleSubmitEvalutioneModal()">Save & Submit</button>
+                    </c-col>
+                </c-row>
+
+                <c-modal id="liveDemoModal" [visible]="saveModalVisibility" (visibleChange)="handleSaveEvalutionModal($event)">
+                    <c-modal-header>
+                      <h5 cModalTitle>Save Evaluation !</h5>
+                      <button (click)="toggleCLoseSaveEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>Confirm saving this evalution as <span style="font-weight: bold;">draft mode</span>  ?</c-modal-body>
+                    <c-modal-footer>
+                      <button (click)="toggleCLoseSaveEvalutionModal()" cButton color="secondary">
+                        No
+                      </button>
+                      <button (click)="SaveEvaluationData()" cButton color="danger">Yes</button>
+                    </c-modal-footer>
+                  </c-modal>
+            
+                  <c-modal id="liveDemoModal" [visible]="submitModalVisibility" (visibleChange)="handleSubmitEvalutionModal($event)">
+                    <c-modal-header>
+                      <h5 cModalTitle>Submit Evaluation !</h5>
+                      <button (click)="toggleCLoseSubmitEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>Confirm <span style="font-weight: bold;">submit</span> this evalution ?</c-modal-body>
+                    <c-modal-footer>
+                      <button (click)="toggleCLoseSubmitEvalutionModal()" cButton color="secondary">
+                        No
+                      </button>
+                      <button (click)="SubmitEvaluationData()" cButton color="danger">Yes</button>
+                    </c-modal-footer>
+                  </c-modal>
+
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

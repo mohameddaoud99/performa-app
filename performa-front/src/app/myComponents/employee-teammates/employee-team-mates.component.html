@@ -1,0 +1,93 @@
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>
+
+        <c-row>
+          <c-col sm="12" style="text-align: center;">
+            <h4>Teammates list</h4>
+          </c-col>
+        </c-row>
+
+      </c-card-header>
+      <c-card-body>
+        <c-row class="mb-3">
+          <c-col [md]="8">
+            <c-row>
+              <c-col [md]="4">
+                <h6 class="mb-0" style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;">Filter employees by profile :</h6>
+              </c-col>
+              <c-col [md]="4"><select aria-label="Select department" (change)="onProfileChange($event)" cSelect>
+                  <option *ngFor="let profile of listProfiles; let i = index" [ngValue]="profile.name">{{profile.name}}
+                  </option>
+                </select>
+              </c-col>
+            </c-row>
+          </c-col>
+        </c-row>
+
+        <!-- <table datatable [dtOptions]="dtoptions"></table> -->
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+          <thead cTableColor="dark">
+            <tr>
+
+              <th>First name</th>
+              <th>Last name</th>
+              <th>Email</th>
+              <th>Profile</th>
+              <th>Job title</th>
+              <th>Department</th>
+              <th>Role</th>
+              <th>Grade</th>
+              <th>Birthday</th>
+
+            </tr>
+          </thead>
+          <tbody *ngIf="EmployeesList">
+            <ng-container *ngIf="EmployeesList && EmployeesList.length > 0; else emptyState">
+
+              <tr *ngFor="let employee of EmployeesList  ;let i=index">
+
+                <td>{{employee.firstname}}</td>
+                <td>{{employee.lastname}}</td>
+                <td>{{employee.email}}</td>
+                <td>{{employee.profile.name}}</td>
+                <td>{{employee.grade.job_title}}</td>
+                <td>{{employee.department}}</td>
+                <td *ngIf="employee.role.color == 'Red' ">
+                  <c-badge color="danger" style="font-size:medium;"><span>{{employee.role.name}}</span></c-badge>
+                </td>
+                <td *ngIf="employee.role.color == 'Green' ">
+                  <c-badge color="success" style="font-size:medium;"><span>{{employee.role.name}}</span></c-badge>
+                </td>
+                <td *ngIf="employee.role.color == 'Blue' ">
+                  <c-badge color="info" style="font-size:medium;"><span>{{employee.role.name}}</span></c-badge>
+                </td>
+                <td *ngIf="employee.role.color == 'Gray' ">
+                  <c-badge color="secondary" style="font-size:medium;"><span>{{employee.role.name}}</span></c-badge>
+                </td>
+                <td *ngIf="employee.role.color == 'Orange' ">
+                  <c-badge color="warning" style="font-size:medium;"><span>{{employee.role.name}}</span></c-badge>
+                </td>
+                <td *ngIf="employee.role.color == 'Black' ">
+                  <c-badge color="dark" style="font-size:medium;"><span>{{employee.role.name}}</span></c-badge>
+                </td>
+                <td>{{employee.grade.gradeName}}</td>
+                <td>{{employee.birthday}}</td>
+              </tr>
+            </ng-container>
+            <ng-template #emptyState>
+              <tr>
+                <td colspan="6" class="text-center">No evaluations found.</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+
+
+
+
+  </c-col>
+</c-row>

@@ -1,0 +1,101 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-header>
+                <c-row>
+                    <c-col sm="8">
+                        <h4>{{presentUser?.firstname +" "+presentUser?.lastname }}'s Evaluation</h4>
+                    </c-col>
+                </c-row>
+            </c-card-header>
+            <c-card-body>
+
+                
+                <c-row style="align-items: center;">
+                    <c-col [md]="4">
+                        <label cLabel for="su">Select supervisor:</label>
+                        <select aria-label="Small select example" cSelect sizing="sm" required name="supervisor"
+                            (click)="setAssignee($event)">
+                            <option *ngFor="let supervisor of supervisors; let i = index" [value]="supervisor.id">
+                                {{supervisor.firstname +" "+ supervisor.lastname }}
+                            </option>
+                        </select>
+                    </c-col>
+                </c-row>
+                <br>
+
+                <table [hover]="false" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0">
+                    <thead cTableColor="dark">
+                        <tr>
+                            <th>#</th>
+                            <!-- <th>Categories</th> -->
+                            <th>Competencies</th>
+                            <th>Level</th>
+                            <th>Self-Rating</th>
+                            <th>Employee Comments</th>
+                            <th>Appraiser rating</th>
+                            <th>Appraiser Comments</th>
+                            <th>Weightage</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let gradeCompetency of updatedGradeCompetenciesList">
+                            <tr>
+                                <td><input type="checkbox" [(value)]="gradeCompetency.id" [checked]="gradeCompetency.competency.isSelected"
+                                    (change)="onChangeGradeCompetency($event)"  /> Disable</td>
+                                <td>{{ gradeCompetency.competency.name }}</td>
+                                <td>{{ gradeCompetency.level }}</td>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example" (change)="updateEmployeeRating($event, gradeCompetency)"
+                                        [disabled]="gradeCompetency.isSelected">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{ option }}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.employeeComment" (change)="updateCompetencyDetails(gradeCompetency)"
+                                        id="employeeComment_{{gradeCompetency.id}}" rows="1" [disabled]="gradeCompetency.isSelected"></textarea>
+                                </td>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example" (change)="updateAppraiserRating($event, gradeCompetency)"
+                                        [disabled]="gradeCompetency.isSelected">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{option}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.appraiserComment"
+                                        id="appraiserComment_{{gradeCompetency.competency.id}}" rows="1" [disabled]="gradeCompetency.isSelected"></textarea>
+                                </td>
+                                <td>
+                                    <input class="form-control" type="text" [value]="gradeCompetency.weightage + ' %'" aria-label="Disabled input example"
+                                       disabled="gradeCompetency.isSelected">
+                                </td>
+                                <td>{{ gradeCompetency.points / 100 | number:'1.0-3' }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7" style="text-align: right;"><strong>Total des points :</strong></td>
+                            <td>{{ finalMark | number:'1.0-3' }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br>
+
+                <c-row style="align-items: center;">
+                  
+
+                    <c-col [md]="6" style="display: flex;  align-items: center;">
+                        <button cButton color="secondary" [disabled]="inputValidation" (click)="SaveEvaluationData()">Save</button>
+                        <button cButton color="success" style="margin-left: 10px;">Save & Submit</button>
+                    </c-col>
+                </c-row>
+
+
+            
+
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

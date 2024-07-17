@@ -1,0 +1,235 @@
+<c-row>
+  <c-col lg>
+    <c-card class="mb-4">
+      <c-card-header>
+        <c-row>
+          <c-col sm="8">
+            <h4>Role(s) list</h4>
+          </c-col>
+          <c-col style="text-align: right;"><button (click)="toggleAddModal()" cButton>Add role</button></c-col>
+        </c-row>
+      </c-card-header>
+      <c-card-body>
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" [hover]="true" [responsive]="true"
+          [striped]="true" align="middle" cTable class="mb-0 border">
+          <thead cTableColor="dark">
+            <tr>
+              <th>Role name</th>
+              <th>Role badge color</th>
+              <th>Permissions</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="showlist">
+            <tr *ngFor="let role of RolesList  ;let i=index">
+
+              <td>{{role.name}}</td>
+
+              <td *ngIf="role.color == 'Red' "> 
+                <c-badge color="danger" style="font-size:medium;"><span>{{role.color}}</span></c-badge>
+              </td>
+              <td *ngIf="role.color == 'Green' "> 
+                <c-badge color="success" style="font-size:medium;"><span>{{role.color}}</span></c-badge>
+              </td>
+              <td *ngIf="role.color == 'Blue' "> 
+                <c-badge color="info" style="font-size:medium;"><span>{{role.color}}</span></c-badge>
+              </td>
+              <td *ngIf="role.color == 'Gray' "> 
+                <c-badge color="secondary" style="font-size:medium;"><span>{{role.color}}</span></c-badge>
+              </td>
+              <td *ngIf="role.color == 'Orange' "> 
+                <c-badge color="warning" style="font-size:medium;"><span>{{role.color}}</span></c-badge>
+              </td>
+              <td *ngIf="role.color == 'Black' "> 
+                <c-badge color="dark" style="font-size:medium;"><span>{{role.color}}</span></c-badge>
+              </td>
+              
+              <td>
+                <ng-container *ngIf="role.permissions.length > 0; else noPermissions">
+                  <c-badge color="success" style="font-size:medium;margin: 0.5%;" *ngFor="let p of role.permissions">
+                    <span>{{p.name}}</span>
+                  </c-badge>
+                </ng-container>
+                <ng-template #noPermissions>
+
+                  <c-badge color="warning">No permissions found</c-badge>
+                </ng-template>
+              </td>
+              <td>
+                <div class="button-container">
+                  <div (click)="toggleDeleteModal(role.id)" class="delete-icon" title="Delete role">
+                    <svg cIcon name="cil-trash" size="xl"></svg>
+                  </div>
+                  <div (click)="toggleUpdateModal(role.id)" class="update-icon" title="Update role">
+                    <svg cIcon name="cil-pencil" size="xl"></svg>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+
+
+
+    <c-modal id="liveDemoModal" [visible]="deleteModalVisibility" (visibleChange)="handleDeleteModal($event)">
+      <c-modal-header>
+        <h5 cModalTitle>Delete role !</h5>
+        <button (click)="toggleCloseDeleteModal()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>Confirm deletion of this role ?</c-modal-body>
+      <c-modal-footer>
+        <button (click)="toggleCloseDeleteModal()" cButton color="secondary">
+          No
+        </button>
+        <button (click)="deleteRole()" cButton color="danger">Yes</button>
+      </c-modal-footer>
+    </c-modal>
+  </c-col>
+</c-row>
+
+
+
+<c-modal size="lg" [visible]="popAddVisibale" alignment="center" backdrop="static">
+  <c-modal-header>
+    <h5 cModalTitle>Add role</h5>
+    <button (click)="toggleAddModal()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm class="row g-6" #f="ngForm" novalidate (ngSubmit)="onSubmit(f.value)">
+      <div class="mb-3">
+        <c-row>
+          <c-col [md]="12">
+            <label cLabel for="inputRoleName">Role name :</label>
+            <input type="text" class="form-control" name="roleName" [(ngModel)]="form.roleName" required minlength="2"
+              maxlength="50" #roleName="ngModel" [ngClass]="{ 'is-invalid': submitted && roleName.errors }" />
+            <div class="invalid-feedback" *ngIf="roleName.errors && roleName.touched && f.submitted">
+              <div *ngIf="roleName.errors['required']">Role name is required!</div>
+              <div *ngIf="roleName.errors['minlength']">
+                Role name must be at least 2 characters
+              </div>
+              <div *ngIf="roleName.errors['maxlength']">
+                Role name must be at most 50 characters
+              </div>
+            </div>
+          </c-col>
+        </c-row>
+        <br>
+        <c-row>
+          <c-col [md]="12">
+            <label cLabel for="color">Color :</label>
+            <select name="color" [(ngModel)]="form.color" #color="ngModel" aria-label="Select color" cSelect>
+              <option value="Red">Red</option>
+              <option value="Green">Green</option>
+              <option value="Blue">Blue</option>
+              <option value="Gray">Gray</option>
+              <option value="Orange">Orange</option>
+              <option value="Black">Black</option>
+            </select>
+          </c-col>
+        </c-row>
+
+        <hr>
+        <c-row>
+          <p>Select permissions :</p>
+          <c-col [md]="6">
+            <select cSelect name="permissions" multiple [(ngModel)]="form.permissions" #permissions="ngModel">
+              <option *ngFor="let p of permission" [value]="p">{{ p.name }}</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="permissions.errors && f.submitted">
+              <div *ngIf="permissions.errors['required']">Permissions are required!</div>
+
+            </div>
+          </c-col>
+        </c-row>
+      </div>
+
+      <hr style="margin-top: 1%;">
+      <c-container>
+        <c-row>
+          <c-col xs="auto"><button type="submit" cButton color="success">Save
+              changes</button></c-col>
+          <c-col xs [lg]="2"> <button (click)="toggleAddModal()" cButton color="secondary">
+              Close
+            </button></c-col>
+        </c-row>
+      </c-container>
+    </form>
+  </c-modal-body>
+</c-modal>
+
+
+
+<!-------------------------------  Update Modal ------------------------------------->
+
+
+
+<c-modal size="lg" alignment="center" [visible]="popUpdateVisible" *ngIf="popUpdateVisible" backdrop="static">
+  <c-modal-header>
+    <h5 cModalTitle>Update role</h5>
+    <button (click)="closePopUpdate()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    <form cForm class="row g-6" #f="ngForm" novalidate (ngSubmit)="updateRole()">
+      <div class="mb-3">
+        <c-row>
+          <c-col [md]="12">
+            <label cLabel for="inputRoleName">Role name</label>
+            <input type="text" class="form-control" name="name" [(ngModel)]="roleToUpdate.name" required minlength="2"
+              maxlength="50" #name="ngModel" [ngClass]="{ 'is-invalid': submitted && roleName.errors }" />
+            <div class="invalid-feedback" *ngIf="roleName.errors && f.submitted">
+              <div *ngIf="roleName.errors['required']">Role name is required</div>
+              <div *ngIf="roleName.errors['minlength']">
+                Role name must be at least 2 characters
+              </div>
+              <div *ngIf="roleName.errors['maxlength']">
+                Role name must be at most 50 characters
+              </div>
+            </div>
+          </c-col>
+        </c-row>
+        <br>
+        <c-row>
+          <c-col [md]="12">
+            <label cLabel for="color">Color :</label>
+            <select name="color" [(ngModel)]="roleToUpdate.color" #color="ngModel" aria-label="Select color" cSelect>
+              <option value="Red">Red</option>
+              <option value="Green">Green</option>
+              <option value="Blue">Blue</option>
+              <option value="Gray">Gray</option>
+              <option value="Orange">Orange</option>
+              <option value="Black">Black</option>
+            </select>
+          </c-col>
+        </c-row>
+
+        <hr>
+        <c-row>
+          <p>Choose permissions :</p>
+          <c-col [md]="6">
+            <select cSelect name="permissions" multiple [(ngModel)]="roleToUpdate.permissions" required
+              #permissions="ngModel">
+              <option *ngFor="let p of permission" [ngValue]="p">{{ p.name }}</option>
+            </select>
+            <div *ngIf="permissions.errors && f.submitted" class="invalid-feedback">
+              Role is required!
+            </div>
+
+
+          </c-col>
+        </c-row>
+      </div>
+      <hr style="margin-top: 1%;">
+      <c-container>
+        <c-row>
+          <c-col xs="auto"><button type="submit" cButton color="success">Save
+              changes</button></c-col>
+          <c-col xs [lg]="2"> <button (click)="closePopUpdate()" cButton color="secondary">
+              Close
+            </button></c-col>
+        </c-row>
+      </c-container>
+    </form>
+  </c-modal-body>
+</c-modal>

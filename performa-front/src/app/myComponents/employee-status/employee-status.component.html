@@ -1,0 +1,73 @@
+<c-row>
+    <c-col xs>
+      <c-card class="mb-4">
+        <c-card-header>
+  
+          <c-row>
+            <c-col sm="12" style="text-align: center;">
+              <h4>Employees evaluations details</h4>
+            </c-col>
+         
+  
+          </c-row>
+        </c-card-header>
+        <c-card-body>
+  
+          <c-row class="mb-3">
+            <c-col [md]="6">
+              <c-row>
+                <c-col [md]="6">
+                  <h6 class="mb-0">Filter employees by role:</h6>
+                </c-col>
+                <c-col [md]="6"><select aria-label="Select department" (change)="onRoleChange($event)"  cSelect>
+                    <!-- <option>Select role</option> -->
+                    <option *ngFor="let role of allRoles; let i = index" [ngValue]="role.name">{{role.name}}</option>                
+                  </select></c-col>
+              </c-row>
+            </c-col>
+          </c-row>
+  
+          <!-- <table datatable [dtOptions]="dtoptions"></table> -->
+          <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+            <thead cTableColor="dark">
+              <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Job title</th>
+                <th>Department</th>
+                <th>Team</th>
+                <th>Grade</th>
+                <th>Evalution status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="UsersList && UsersList.length > 0; else emptyState">
+                <tr *ngFor="let u of UsersList; let i=index">
+                  <td>{{ u.user.firstname }}</td>
+                  <td>{{ u.user.lastname }}</td>
+                  <td>{{ u.user.email }}</td>
+                  <td>{{ u.user.grade.job_title }}</td>
+                  <td>{{ u.user.department }}</td>
+                  <td>{{ u.user.team }}</td>
+                  <td>{{ u.user.grade.gradeName }}</td>
+                  <td>  
+                    <c-badge *ngIf="u.status !='Completed' " color="info" style="font-size:medium;"><span>{{u.status}}</span></c-badge>
+                    <c-badge *ngIf="u.status =='Completed' " color="success" style="font-size:medium;"><span>{{u.status}}</span></c-badge>
+                  </td>
+                </tr>
+              </ng-container>
+              <ng-template #emptyState>
+                <tr>
+                  <td colspan="8" class="text-center">No users found.</td>
+                </tr>
+              </ng-template>
+            </tbody>
+          </table>
+        </c-card-body>
+      </c-card>
+
+  
+  
+    </c-col>
+  </c-row>

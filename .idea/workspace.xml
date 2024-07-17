@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f2f51280-1792-41f7-bcf5-6f900d7220c1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/controllers/UserLdapController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/models/UserLdap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/payload/request/UserLdapRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/repository/UserLdapRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/jwt/ldapJwt/LdapAuthTokenFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/services/RepoImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/services/UserLdapDetailsImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/services/UserLdapDetailsServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/services/UserLdapImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/security/services/UserLdapService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/EmailSender.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/EmailSender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/EvaluationConfirmationEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/EvaluationConfirmationEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/EvaluationRejectionEmail.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/EvaluationRejectionEmail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToAppraiser.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToAppraiser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToEmployee.java" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/java/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToEmployee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/controllers/UserLdapController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/models/UserLdap.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/payload/request/UserLdapRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/repository/UserLdapRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/WebSecurityConfig$SerializationConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/WebSecurityConfig$SerializationConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/WebSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/WebSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/jwt/ldapJwt/LdapAuthTokenFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/services/RepoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/services/UserLdapDetailsImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/services/UserLdapDetailsServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/services/UserLdapImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/security/services/UserLdapService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/EmailSender.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/EmailSender.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/EvaluationConfirmationEmail.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/EvaluationConfirmationEmail.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/EvaluationRejectionEmail.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/EvaluationRejectionEmail.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToAppraiser.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToAppraiser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToEmployee.class" beforeDir="false" afterPath="$PROJECT_DIR$/performa-back/target/classes/tn/telnet/workflow/services/camundaServices/SendEmailDelegationToEmployee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-back/target/performa-back.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/containers/default-layout/nav_ldap.ts" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/containers/default-layout/nav_ldap.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/dashboard/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/dashboard/dashboard.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/employee-evaluation-list/employee-evaluation-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/employee-evaluation-list/employee-evaluation-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/employee-evaluation/employee-evaluation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/employee-evaluation/employee-evaluation.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/reviewer-evaluation-step/reviewer-evaluation-step.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/reviewer-evaluation-step/reviewer-evaluation-step.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/reviewer-validation-step/reviewer-validation-step.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/reviewer-validation-step/reviewer-validation-step.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/roles/roles.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/roles/roles.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/update-emloyee-evaluation/update-emloyee-evaluation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/update-emloyee-evaluation/update-emloyee-evaluation.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/update-reviewer-evaluation-step/update-reviewer-evaluation-step.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/update-reviewer-evaluation-step/update-reviewer-evaluation-step.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/performa-front/src/app/myComponents/users/users.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/performa-front/src/app/myComponents/users/users.component.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2fMiew0gWUKes8kOPMYB78RI8hS" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\version 11\e-paysys-15-performa" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f2f51280-1792-41f7-bcf5-6f900d7220c1" name="Changes" comment="" />
+      <created>1713617447408</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713617447408</updated>
+      <workItem from="1713617451157" duration="67000" />
+      <workItem from="1718068040145" duration="7000" />
+      <workItem from="1718068064479" duration="4800000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

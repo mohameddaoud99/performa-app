@@ -1,0 +1,192 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-header>
+                <c-row>
+                    <c-col sm="12" style="text-align: center;">
+                        <h4>{{evaluationToEvaluate.user.firstname +" "+evaluationToEvaluate.user.lastname }}'s
+                            Evaluation Validation</h4>
+                    </c-col>                    
+                </c-row>
+            </c-card-header>
+
+            <c-card-body>
+                <br>
+                <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border"
+                    *ngIf="evaluationToEvaluate">
+                    <thead cTableColor="dark">
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th class="text-center">Competencies</th>
+                            <th class="text-center">Level</th>
+                            <th class="text-center">Self-Rating</th>
+                            <th class="text-center">Employee Comments</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container
+                            *ngFor="let gradeCompetency of evaluationToEvaluate.evaluationCompetencies; let i = index">
+                            <tr>
+                                <td class="text-center"><input type="checkbox" [(ngModel)]="gradeCompetency.selected"
+                                        style="width: 20px; height: 20px;" /></td>
+                                <td class="text-center">{{ gradeCompetency.competency.name }}</td>
+                                <td class="text-center">{{ gradeCompetency.level}}</td>
+                                <td class="text-center">
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="gradeCompetency.employee_mark" disabled style="min-width: 80px;">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{ option }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td class="text-center">
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.employee_comment"
+                                        rows="3" cols="70" disabled></textarea>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="9">
+                                <label style="padding: 5px;"><strong>Notes:</strong></label>
+                                <textarea [(ngModel)]="evaluationToEvaluate.comments" class="form-control" rows="6"
+                                    placeholder="Put your notes here ...">
+                                </textarea>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br>
+
+                <c-row style="align-items: center;">
+                    <c-col [md]="12" style="display: flex;  align-items: center;">
+                        <button cButton color="success" (click)="toggleSubmitEvalutioneModal()"
+                            style="margin-left: 10px;">Validate</button>
+                        <button cButton color="danger" (click)="toggleRejectEvalutionModal()"
+                            style="margin-left: 10px;">Back to review</button>
+                        <button cButton color="secondary" (click)="togglePopDelegate()"
+                            style="margin-left: 10px;">Delegate
+                            evaluation</button>
+                    </c-col>
+                </c-row>
+
+                <c-modal size="lg" [visible]="rejectEvaluationModalVisibility" backdrop="static" (visibleChange)="handleRejectEvalutionModal($event)">
+                    <c-modal-header>
+                      <h5 cModalTitle>Confirm evaluation's back to review</h5>
+                      <button (click)="toggleCLoseRejectEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>
+                      <label>
+                        To confirm this <span style="font-weight: bold;">evaluation's back to review</span> please put the review reasons
+                        and the changes must be applied by the employee:
+                      </label>
+                      <br><br>
+                      <textarea [(ngModel)]="evaluationToEvaluate.rejection_reasons" class="form-control" rows="6"
+                                (ngModelChange)="updateReasonsRejectionValidity($event)" placeholder="Put the reasons here ..."></textarea>
+                      <span cFormText id="passwordHelpBlock-2">Rejection reasons field is required</span>
+                    </c-modal-body>
+                    <c-modal-footer>
+                      <button (click)="toggleCLoseRejectEvalutionModal()" cButton color="secondary">No</button>
+                      <button [disabled]="isReasonsRejectionEmpty || isSubmittingRejection" (click)="rejectEvaluation()" cButton color="danger">
+                        <span *ngIf="!isSubmittingRejection">Yes</span>
+                      </button>
+                    </c-modal-footer>
+                </c-modal>
+
+
+                <c-modal size="lg" alignment="top" [visible]="popDelegateVisible" *ngIf="popDelegateVisible"
+                    backdrop="static">
+                    <c-modal-header>
+                        <h5 cModalTitle>Delegate evaluation</h5>
+                        <button (click)="closePopDelegate()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>
+                        <form cForm class="row g-6" #f="ngForm" novalidate (ngSubmit)="delegateEvaluation()">
+                            <div class="mb-3">
+                                <c-row style="align-items: center;">
+                                    <c-col [md]="12">
+                                        <label>
+                                            You can delegate this <span style="font-weight: bold;">employee evaluation</span>.<br>
+                                            Please select the appraiser :
+                                        </label>
+                                        <br><br>
+                                        <select aria-label="Small select example" cSelect sizing="sm" required
+                                            name="supervisor" [(ngModel)]="evaluationToEvaluate.id_appraiser">
+                                            <option *ngFor="let supervisor of supervisors" [value]="supervisor.id">
+                                                {{supervisor.firstname +" "+ supervisor.lastname +" :
+                                                "+supervisor.profile.name}}
+                                            </option>
+
+                                        </select>
+
+                                    </c-col>
+                                </c-row>
+                            </div>
+                            <hr style="margin-top: 1%;">
+                            <c-container>
+                                <c-row>
+                                    <c-col xs="auto"><button type="submit" cButton
+                                            color="success">Confirm</button></c-col>
+                                    <c-col xs [lg]="2"> <button (click)="closePopDelegate()" cButton color="secondary">
+                                            Close
+                                        </button></c-col>
+                                </c-row>
+                            </c-container>
+                        </form>
+                    </c-modal-body>
+                </c-modal>
+
+
+
+                <c-modal size="lg" id="liveDemoModal" [visible]="submitModalVisibility" backdrop="static"
+                    (visibleChange)="handleSubmitEvalutionModal($event)">
+                    <c-modal-header>
+                        <h5 cModalTitle>Validate Evaluation !</h5>
+                        <button (click)="toggleCLoseSubmitEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>
+
+                        <c-row>
+                            <c-col [md]="12">
+                                <label>
+                                    To confirm this <span style="font-weight: bold;">evaluation approvement</span>
+                                    You should specify date of face-to-face evaluation session :
+                                </label>
+                            </c-col>
+                        </c-row>
+                        <br>
+                        <c-row>
+                            <c-col [md]="6">
+                                <input cFormControl class="form-control" required id="inputBirthday" type="datetime-local"
+                                    required 
+                                    pattern="\d{4}-\d{2}-\d{2}" name="dateReviewerEvaluation"
+                                    [(ngModel)]="evaluationToEvaluate.dateReviewerEvaluation" required
+                                    (ngModelChange)="updateDateValidity($event)"
+                                    [attr.min]="currentDateTime" />
+                                <span cFormText id="passwordHelpBlock-2">
+                                    Date field is required
+                                </span>
+                                <!-- <input cFormControl required id="inputBirthday" type="date" pattern="\d{4}-\d{2}-\d{2}"
+                                 [(ngModel)]="evaluationToEvaluate.dateReviewerEvaluation" required
+                                 /> -->
+                            </c-col>
+                        </c-row>
+
+                    </c-modal-body>
+                    <c-modal-footer>
+                        <button (click)="toggleCLoseSubmitEvalutionModal()" cButton color="secondary">
+                            No
+                        </button> 
+                        <button type="button" class="btn btn-primary btn-loading" (click)="validateEvaluation()" [disabled]="isDateEmpty"
+                        data-coreui-timeout="2000" data-coreui-toggle="loading-button">Submit</button>
+
+                        <!-- <button (click)="validateEvaluation()" cButton color="danger"
+                            [disabled]="isDateEmpty">Yes</button> -->
+                    </c-modal-footer>
+                </c-modal>
+
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

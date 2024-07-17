@@ -1,0 +1,98 @@
+# ===============================
+# = CAMUNDA
+# ===============================
+
+camunda.bpm.admin-user:
+  id: demo
+  password: demo
+
+
+camunda:
+  bpm:
+    database:
+      type: postgres
+      schema-update: true
+    authorization:
+      enabled: true
+      tenant-check-enabled: true
+      enabled-for-custom-code: true
+    jpa:
+      enabled: true
+      handle-transaction: true
+    filter:
+      create: All tasks
+    generic-properties:
+      properties:
+        historyTimeToLive: P1D
+
+# ===============================
+# = DATABASE
+# ===============================
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/performa
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: admin
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+    jackson:
+      serialization: FAIL_ON_EMPTY_BEANS=false
+
+
+    ldap:
+      urls: ldap://ldap-server:389
+      base:
+        dn: dc=example,dc=com
+      username: cn=admin,dc=example,dc=com
+      password: secret
+    security:
+      ldap:
+        base: dc=example,dc=com
+        username-pattern: uid={0},ou=people
+        user-dn-pattern: uid={0},ou=people
+        group-search-base: ou=groups
+
+      # ===============================
+      # = LDAP CONFIG
+      # ===============================
+      #  ldap:
+      #     base: dc=example,dc=com
+      #   password: secret
+    #    username: uid=admin,ou=system
+
+
+
+# ===============================
+# = EMAIL CONFIG
+# ===============================
+spring.mail.host: smtp.gmail.com
+spring.mail.username: daoud.djo99@gmail.com
+spring.mail.password: exux sghh vxfo exjw
+spring.mail.port: 587
+spring.mail.properties.mail.smtp.starttls.enable: true
+spring.mail.properties.mail.smtp.auth: true
+spring.mail.properties.mail.smtp.socketFactory.port: 465
+spring.mail.properties.mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+spring.mail.properties.mail.smtp.socketFactory.fallback: false
+
+# ===============================
+# = JWT CONFIG
+# ===============================
+telnet:
+  app:
+    jwtCookieName: telnet
+    jwtSecret: "======================Telnet=Spring==========================="
+    jwtExpirationMs: 86400000
+
+
+
+

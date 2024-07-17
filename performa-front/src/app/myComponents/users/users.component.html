@@ -1,0 +1,551 @@
+<c-row>
+  <c-col xs>
+    <c-card class="mb-4">
+      <c-card-header>
+
+        <c-row>
+          <c-col sm="8">
+            <h4>User(s) list</h4>
+          </c-col>
+          <c-col style="text-align: right;"><button (click)="openAddModal()" cButton>Add user</button></c-col>
+        </c-row>
+
+
+        <c-modal size="xl" id="liveDemoModal" [visible]="visible" alignment="center" backdrop="static">
+          <c-modal-header>
+            <h5 cModalTitle>Add user</h5>
+            <button (click)="closeAddModal()" cButtonClose></button>
+          </c-modal-header>
+          <c-modal-body>
+            <form cForm class="row g-6" name="form" #f="ngForm" novalidate>
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputFirsName">First name</label>
+                    <input type="text" class="form-control" name="firstName" [(ngModel)]="form.firstname" required
+                      minlength="2" maxlength="50" #firstName="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && firstName.errors ,'is-valid': firstName.valid && (submitted || firstName.touched)}" />
+                    <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+                      <div *ngIf="firstName.errors['required']">First name is required</div>
+                      <div *ngIf="firstName.errors['minlength']">
+                        First name must be at least 2 characters
+                      </div>
+                      <div *ngIf="firstName.errors['maxlength']">
+                        First name must be at most 50 characters
+                      </div>
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputLastName">Last name</label>
+                    <input type="text" class="form-control" name="lastName" [(ngModel)]="form.lastname" required
+                      minlength="2" maxlength="50" #lastName="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && lastName.errors ,'is-valid': lastName.valid && (submitted || lastName.touched)}" />
+                    <div class="invalid-feedback" *ngIf="lastName.errors && f.submitted">
+                      <div *ngIf="lastName.errors['required']">Last name is required</div>
+                      <div *ngIf="lastName.errors['minlength']">
+                        Last name must be at least 2 characters
+                      </div>
+                      <div *ngIf="lastName.errors['maxlength']">
+                        Last name must be at most 50 characters
+                      </div>
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputEmail">Email</label>
+                    <input cFormControl required id="inputEmail" name="email" [(ngModel)]="form.email" required email
+                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #email="ngModel"
+                      [ngClass]="{'is-invalid': submitted && email.errors, 'is-valid': email.valid && (submitted || email.touched)}"
+                      type="email" />
+                    <div class="invalid-feedback" *ngIf="email.errors && f.submitted">
+                      <div *ngIf="email.errors['required']">Email is required</div>
+                      <div *ngIf="email.errors['email']">
+                        Email must be a valid email address
+                      </div>
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputPassword">Password</label>
+                    <input cFormControl required id="inputPassword" name="password" [(ngModel)]="form.password" required
+                      minlength="8" maxlength="12" #password="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && password.errors ,'is-valid': password.valid && (submitted || password.touched)}"
+                      type="password" />
+                    <span cFormText id="passwordHelpBlock-2">
+                      Your password must be 8-12 characters long
+                    </span>
+                    <div class="invalid-feedback" *ngIf="password.errors && f.submitted">
+                      <div *ngIf="password.errors['required']">Password is required</div>
+                      <div *ngIf="password.errors['minlength']">
+                        Password must be at least 8 characters
+                      </div>
+                      <div *ngIf="password.errors['minlength']">
+                        Password must be at most 12 characters
+                      </div>
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Profile</label>
+                    <select aria-label="Default select example" placeholder="Choose user's profile" required
+                      name="profile" [(ngModel)]="form.profile" #profile="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && profile.errors ,'is-valid': profile.valid && (submitted || profile.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's profile:</option>
+                      <option *ngFor="let profile of profilesList; let i = index" [ngValue]="profile.id">{{ profile.name
+                        }}</option>
+                    </select>
+                    <div *ngIf="profile.errors && submitted" class="invalid-feedback">
+                      Profile is required!
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputDepartment">Department</label>
+                    <select aria-label="Default select example" aria-placeholder="Choose user's department" required
+                      name="department" [(ngModel)]="form.department" #department="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && department.errors ,'is-valid': department.valid && (submitted || department.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's department:</option>
+                      <option *ngFor="let dep of departmentsList; let i = index" [ngValue]="dep.department_name">
+                        {{dep.department_name}}</option>
+                    </select>
+                    <div *ngIf="department.errors && submitted" class="invalid-feedback">
+                      Department is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Role</label>
+                    <select aria-label="Default select example" placeholder="Choose user's role" required name="role"
+                      [(ngModel)]="form.role" #role="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && role.errors ,'is-valid': role.valid && (submitted || role.touched)}"
+                      cSelect>
+
+                      <option disabled style="font-weight: bold;">Choose user's role(s):</option>
+                      <option *ngFor="let role of RolesList; let i = index" [ngValue]="role.id"
+                        onclick="getRoleById(role.id)" RoleId="role.id">{{ role.name }}</option>
+
+                    </select>
+                    <div *ngIf="role.errors && f.submitted" class="invalid-feedback">
+                      Role is required!
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Grade / JobTitle</label>
+                    <select aria-label="Default select example" placeholder="Choose user's grade" required name="grade"
+                      [(ngModel)]="form.grade" #grade="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && grade.errors ,'is-valid': grade.valid && (submitted || grade.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's grade:</option>
+                      <option *ngFor="let grade of gradesList; let i = index" [ngValue]="grade.id">{{ grade.gradeName+" / "+grade.job_title }}
+                      </option>
+                    </select>
+                    <div *ngIf="grade.errors && submitted" class="invalid-feedback">
+                      Grade is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+              <div class="mb-3">
+
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Team</label>
+                    <select aria-label="Default select example" placeholder="Choose user's team" required name="team"
+                      [(ngModel)]="form.team" #team="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && team.errors ,'is-valid': team.valid && (submitted || team.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's team:</option>
+                      <option value="team 1">team 1</option>
+                      <option value="team 2">team 2</option>
+                      <option value="team 3">team 3</option>
+
+                    </select>
+                    <div *ngIf="team.errors && submitted" class="invalid-feedback">
+                      Team is required!
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Birthday</label>
+                    <input cFormControl required id="inputBirthday" type="date" pattern="\d{4}-\d{2}-\d{2}"
+                      name="birthday" [(ngModel)]="form.birthday" required #birthday="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted  && birthday.errors ,'is-valid': birthday.valid && (submitted || birthday.touched)}" />
+                    <div *ngIf="birthday.errors && submitted" class="invalid-feedback">
+                      Birthday is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div >
+
+              <div class="mb-3">
+                <!-- <div class="mb-3" *ngIf="form.role?.name == 'ROLE_EMPLOYEE' "> -->
+                <c-col [md]="6">
+                  <label cLabel for="inputDepartment">Appraiser</label>
+                  <select aria-label="Default select example" aria-placeholder="Choose user's appraiser" required
+                    name="id_appraiser" [(ngModel)]="form.id_appraiser" #id_appraiser="ngModel"
+                    [ngClass]="{ 'is-invalid': submitted && id_appraiser.errors ,'is-valid': id_appraiser.valid && (submitted || id_appraiser.touched)}"
+                    cSelect>
+                    <option disabled style="font-weight: bold;">Choose user's appraiser:</option>
+                    <option *ngFor="let supervisor of supervisors; let i = index" [ngValue]="supervisor.id">
+                      {{supervisor.firstname +" "+ supervisor.lastname +" | "+supervisor.grade.job_title }}</option>
+                  </select>
+                  <div *ngIf="id_appraiser.errors && submitted" class="invalid-feedback">
+                    Appraiser is required!
+                  </div>
+                </c-col>
+              </div>
+             
+
+              <hr style="margin-top: 1%;">
+
+
+
+              <c-container>
+                <c-row>
+                  <c-col xs="auto"><button type="submit" (click)="onSubmit()" cButton color="success">Save
+                      changes</button></c-col>
+                  <c-col xs [lg]="2"> <button (click)="closeAddModal()" cButton color="secondary">
+                      Close
+                    </button></c-col>
+                </c-row>
+              </c-container>
+
+
+            </form>
+
+
+          </c-modal-body>
+          <!-- <c-modal-footer>
+            <button (click)="toggleLiveDemo()" cButton color="secondary">
+              Close
+            </button>
+            <button type="submit" (click)="onSubmit()" cButton color="success">Save changes</button>
+          </c-modal-footer> -->
+        </c-modal>
+
+
+
+
+        <!------------------------------- Start Update Modal ------------------------------------->
+
+
+
+        <c-modal size="xl" id="liveDemoModal" [visible]="updateModalVisibility" alignment="center"
+          *ngIf="userToUpdate != null" backdrop="static">
+          <c-modal-header>
+            <h5 cModalTitle>Update user</h5>
+            <!-- <h5 cModalTitle>Update user <span style="font-weight: bold;">{{userToUpdate.firstname +" "+
+                userToUpdate.lastname }}</span></h5> -->
+            <button (click)="closeUpdateModal()" cButtonClose></button>
+          </c-modal-header>
+          <c-modal-body>
+            <form cForm class="row g-6" name="form" #f="ngForm" novalidate>
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputFirsName">First name</label>
+                    <input type="text" class="form-control" name="firstname" [(ngModel)]="userToUpdate.firstname"
+                      required minlength="2" maxlength="50" #firstname="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && firstname.errors ,'is-valid': firstname.valid && (submitted || firstname.touched)}" />
+                    <div class="invalid-feedback" *ngIf="firstName.errors && f.submitted">
+                      <div *ngIf="firstName.errors['required']">First name is required</div>
+                      <div *ngIf="firstName.errors['minlength']">
+                        First name must be at least 2 characters
+                      </div>
+                      <div *ngIf="firstName.errors['maxlength']">
+                        First name must be at most 50 characters
+                      </div>
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputlastname">Last name</label>
+                    <input type="text" class="form-control" name="lastname" [(ngModel)]="userToUpdate.lastname" required
+                      minlength="2" maxlength="50" #lastname="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && lastname.errors ,'is-valid': lastname.valid && (submitted || lastname.touched)}" />
+                    <div class="invalid-feedback" *ngIf="lastname.errors && f.submitted">
+                      <div *ngIf="lastname.errors['required']">Last name is required</div>
+                      <div *ngIf="lastname.errors['minlength']">
+                        Last name must be at least 2 characters
+                      </div>
+                      <div *ngIf="lastname.errors['maxlength']">
+                        Last name must be at most 50 characters
+                      </div>
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputEmail">Email</label>
+                    <input cFormControl required id="inputEmail" name="emaill" [(ngModel)]="userToUpdate.email" required
+                      email pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #emaill="ngModel"
+                      [ngClass]="{'is-invalid': submitted && emaill.errors, 'is-valid': emaill.valid && (submitted || emaill.touched)}"
+                      type="email" />
+                    <div class="invalid-feedback" *ngIf="emaill.errors && f.submitted">
+                      <div *ngIf="emaill.errors['required']">Email is required</div>
+                      <div *ngIf="emaill.errors['email']">
+                        Email must be a valid email address
+                      </div>
+                    </div>
+                  </c-col>
+                  <!-- <c-col [md]="6">
+                    <label cLabel for="inputPassword">Password</label>
+                    <input cFormControl required id="inputPassword" name="passwordd" [(ngModel)]="userToUpdate.password" required disabled
+                      minlength="8" maxlength="12" #passwordd="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && passwordd.errors ,'is-valid': passwordd.valid && (submitted || passwordd.touched)}" type="password" />
+                    <span cFormText id="passwordHelpBlock-2">
+                      Your password must be 8-12 characters long
+                    </span>
+                    <div class="invalid-feedback" *ngIf="passwordd.errors && f.submitted">
+                      <div *ngIf="passwordd.errors['required']">Password is required</div>
+                      <div *ngIf="passwordd.errors['minlength']">
+                        Password must be at least 8 characters
+                      </div>
+                      <div *ngIf="passwordd.errors['minlength']">
+                        Password must be at most 12 characters
+                      </div>
+                    </div>
+                  </c-col> -->
+                </c-row>
+              </div>
+
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Profile</label>
+                    <select aria-label="Default select example" placeholder="Choose user's profile" required
+                      name="profileUpdateForm" [(ngModel)]="userToUpdate.profile.id" #profileUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && profileUpdateForm.errors ,'is-valid': profileUpdateForm.valid && (submitted || profileUpdateForm.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's profile:</option>
+                      <option *ngFor="let profile of profilesList" [ngValue]="profile.id">{{ profile.name }}</option>
+                    </select>
+                    <div *ngIf="profileUpdateForm.errors && submitted" class="invalid-feedback">
+                      Profile is required!
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputDepartment">Department</label>
+                    <select aria-label="Default select example" aria-placeholder="Choose user's department" required
+                      name="departmentUpdateForm" [(ngModel)]="userToUpdate.department" #departmentUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && departmentUpdateForm.errors ,'is-valid': departmentUpdateForm.valid && (submitted || departmentUpdateForm.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's department:</option>
+                      <option *ngFor="let dep of departmentsList" [ngValue]="dep.department_name">
+                        {{dep.department_name}}</option>
+                    </select>
+                    <div *ngIf="departmentUpdateForm.errors && submitted" class="invalid-feedback">
+                      Department is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Role</label>
+                    <select aria-label="Default select example" placeholder="Choose user's role" required
+                      name="roleUpdateForm" [(ngModel)]="userToUpdate.role.id" #roleUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && roleUpdateForm.errors ,'is-valid': roleUpdateForm.valid && (submitted || roleUpdateForm.touched)}"
+                      cSelect>
+
+                      <option disabled style="font-weight: bold;">Choose user's role:</option>
+                      <option *ngFor="let role of RolesList" [ngValue]="role.id">{{ role.name }}</option>
+
+                    </select>
+                    <div *ngIf="roleUpdateForm.errors && f.submitted" class="invalid-feedback">
+                      Role is required!
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Grade / JobTitle</label>
+                    <select aria-label="Default select example" placeholder="Choose user's grade" required
+                      name="gradeUpdateForm" [(ngModel)]="userToUpdate.grade.id" #gradeUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && gradeUpdateForm.errors ,'is-valid': gradeUpdateForm.valid && (submitted || gradeUpdateForm.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's grade:</option>
+                      <option *ngFor="let grade of gradesList" [ngValue]="grade.id">{{grade.gradeName+" / "+grade.job_title}}</option>
+                    </select>
+                    <div *ngIf="gradeUpdateForm.errors && submitted" class="invalid-feedback">
+                      Grade is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+              <div class="mb-3">
+
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Team</label>
+                    <select aria-label="Default select example" placeholder="Choose user's team" required
+                      name="teamUpdateForm" [(ngModel)]="userToUpdate.team" #teamUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && teamUpdateForm.errors ,'is-valid': team.valid && (submitted || teamUpdateForm.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">{{userToUpdate.team}}</option>
+                      <option value="team 1">team 1</option>
+                      <option value="team 2">team 2</option>
+                      <option value="team 3">team 3</option>
+
+                    </select>
+                    <div *ngIf="teamUpdateForm.errors && submitted" class="invalid-feedback">
+                      Team is required!
+                    </div>
+                  </c-col>
+                  <c-col [md]="6">
+                    <label cLabel for="inputGroup">Birthday</label>
+                    <input cFormControl required id="inputBirthday" type="date" pattern="\d{4}-\d{2}-\d{2}"
+                      value="userToUpdate.birthday" name="birthdayUpdateForm" [(ngModel)]="userToUpdate.birthday"
+                      required #birthdayUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted  && birthdayUpdateForm.errors ,'is-valid': birthdayUpdateForm.valid && (submitted || birthdayUpdateForm.touched)}" />
+                    <div *ngIf="birthdayUpdateForm.errors && submitted" class="invalid-feedback">
+                      Birthday is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+              <div class="mb-3">
+                <c-row>
+                  <c-col [md]="6">
+                    <label cLabel for="inputAppraiser">Appraiser</label>
+                    <select aria-label="Default select example" aria-placeholder="Choose user's appraiser" required
+                      name="AppraiserUpdateForm" [(ngModel)]="userToUpdate.id_appraiser" #AppraiserUpdateForm="ngModel"
+                      [ngClass]="{ 'is-invalid': submitted && AppraiserUpdateForm.errors ,'is-valid': AppraiserUpdateForm.valid && (submitted || AppraiserUpdateForm.touched)}"
+                      cSelect>
+                      <option disabled style="font-weight: bold;">Choose user's appraiser:</option>
+                      <option *ngFor="let supervisor of supervisors; let i = index" [ngValue]="supervisor.id">
+                        {{supervisor.firstname +" "+ supervisor.lastname +" | "+supervisor.grade.job_title }}</option>
+                    </select>
+                    <div *ngIf="AppraiserUpdateForm.errors && submitted" class="invalid-feedback">
+                      Appraiser is required!
+                    </div>
+                  </c-col>
+                </c-row>
+              </div>
+
+
+              <hr style="margin-top: 1%;">
+
+
+
+              <c-container>
+                <c-row>
+                  <c-col xs="auto"><button type="submit" (click)="updateUser()" cButton color="success">Save
+                      changes</button></c-col>
+                  <c-col xs [lg]="2"> <button (click)="closeUpdateModal()" cButton color="secondary">
+                      Close
+                    </button></c-col>
+                </c-row>
+              </c-container>
+
+
+            </form>
+
+
+          </c-modal-body>
+        </c-modal>
+
+
+        <!----------------------------- End  Update Modal ------------------------------------->
+
+      </c-card-header>
+      <c-card-body>
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" [hover]="true" [responsive]="true"
+          [striped]="true" align="middle" cTable class="mb-0 border">
+          <thead cTableColor="dark">
+            <tr class="align-middle">
+
+              <th class="text-center">First name</th>
+              <th class="text-center">Last name</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Profile</th>
+              <th class="text-center">Department</th>
+              <th class="text-center">Role</th>
+              <th class="text-center">Grade</th>
+              <th class="text-center">Team</th>
+              <th class="text-center">Birthday</th>
+              <th class="text-center">Action</th>
+
+            </tr>
+          </thead>
+          <tbody *ngIf="showlist">
+            <tr *ngFor="let user of UsersList  ;let i=index">
+              <td>{{user.firstname}}</td>
+              <td>{{user.lastname}}</td>
+              <td>{{user.email}}</td>
+              <td> <c-badge color="secondary" style="font-size:medium;"><span>
+                    {{user.profile.name}}
+                  </span></c-badge></td>
+              <td>{{user.department}}</td>
+
+              <td class="text-center" *ngIf="user.role.color == 'Red' ">
+                <c-badge color="danger" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td class="text-center" *ngIf="user.role.color == 'Green' ">
+                <c-badge color="success" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td class="text-center" *ngIf="user.role.color == 'Blue' ">
+                <c-badge color="info" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td class="text-center" *ngIf="user.role.color == 'Gray' ">
+                <c-badge color="secondary" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td class="text-center" *ngIf="user.role.color == 'Orange' ">
+                <c-badge color="warning" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td class="text-center" *ngIf="user.role.color == 'Black' ">
+                <c-badge color="dark" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+
+              <td class="text-center">{{user.grade.gradeName}}</td>
+              <td class="text-center">{{user.team}}</td>
+              <td class="text-center">{{user.birthday}}</td>
+              <td class="text-center">
+
+                <div class="button-container">
+                  <div (click)="toggleDeleteModal(user.id)" class="delete-icon" title="Delete User">
+                    <svg cIcon name="cil-trash" size="xl"></svg>
+                  </div>
+                  <div (click)="openUpdateModal(user.id)" class="update-icon" title="Update role">
+                    <svg cIcon name="cil-pencil" size="xl"></svg>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
+      </c-card-body>
+    </c-card>
+    <c-modal id="liveDemoModal" [visible]="deleteModalVisibility" (visibleChange)="handleDeleteModal($event)">
+      <c-modal-header>
+        <h5 cModalTitle>Delete user !</h5>
+        <button (click)="toggleCloseDeleteModal()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>Confirm deletion of this user ?</c-modal-body>
+      <c-modal-footer>
+        <button (click)="toggleCloseDeleteModal()" cButton color="secondary">
+          No
+        </button>
+        <button (click)="deleteUser()" cButton color="danger">Yes</button>
+      </c-modal-footer>
+    </c-modal>
+
+
+  </c-col>
+</c-row>

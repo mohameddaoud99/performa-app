@@ -1,0 +1,130 @@
+<c-row>
+  <c-col xs="12" lg="6">
+    <c-widget-stat-e [title]="'Number of competencies'" [value]="competenciesCountByEmployee" class="mb-4">
+    </c-widget-stat-e>
+  </c-col>
+
+  <c-col xs="12" lg="6">
+    <c-widget-stat-e [title]="'Number of Evaluations'" [value]="evaluationsCountByEmployee" class="mb-4">
+    </c-widget-stat-e>
+  </c-col>
+</c-row>
+
+
+<!-- //////////////////////////Employee Dashboard/////////////////////////////// -->
+
+<c-row *ngIf="userRole=='ROLE_EMPLOYEE'">
+  <c-col xs="12" lg="12">
+
+    <c-card class="mb-4">
+      <c-card-header style="text-align: center;">
+        <h5>Evaluation(s) Mark(s) By Date(s)</h5>
+      </c-card-header>
+      <c-card-body>
+        <div *ngIf="dataBarChart && dataBarChart.labels.length == 0" style="text-align: center;">
+          <p>No data exist</p>
+        </div>
+        <c-chart [height]="300" [data]="dataBarChart" [options]="chartOptions" type="bar">
+        </c-chart>
+      </c-card-body>
+    </c-card>
+
+  </c-col>
+</c-row>
+
+<!-- //////////////////////////Manager Dashboard/////////////////////////////// -->
+
+
+<c-row *ngIf="userRole=='ROLE_MANAGER' ">
+  <c-col xs="12" lg="6">
+
+    <c-card class="mb-4">
+      <c-card-header style="text-align: center;">
+        <h5>Evaluation(s) Final Mark By Date</h5>
+      </c-card-header>
+      <c-card-body>
+        <c-chart [height]="300" [data]="dataBarChart" [options]="chartOptions" type="bar">
+        </c-chart>
+      </c-card-body>
+    </c-card>
+
+  </c-col>
+
+  <c-col xs="12" lg="6">
+    <c-card class="mb-4">
+      <c-card-header style="text-align: center;">
+        <h5>Evaluation(s) Status By Employee(s)</h5>
+      </c-card-header>
+      <c-card-body>
+        <div *ngIf="dataPieChart && dataPieChart.labels.length == 0" style="text-align: center;">
+          <p>No data exist</p>
+        </div>
+        <c-chart [height]="300" [data]="dataPieChart" [options]="chartOptions" type="pie" />
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- //////////////////////////Admin Dashboard/////////////////////////////// -->
+<c-container fluid *ngIf="userRole=='ROLE_HUMAN_RESSOURCES' ">
+
+  <c-row>
+    <c-col xs="12" lg="12">
+      <c-card class="mb-4">
+        <c-card-header style="text-align: center;">
+          <h5>Evaluation(s) Marks By Date(s)</h5>
+        </c-card-header>
+        <c-card-body>
+          <br>
+
+          <c-row class="mb-3">
+            <c-row>
+              <c-col md="2">
+                <p style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;" class="mb-3">Filter
+                  employees by :</p>
+              </c-col>
+              <c-col md="3">
+                <select aria-label="Select option" cSelect [(ngModel)]="selectedFilterOption">
+                  <option value="ROLE">ROLE</option>
+                  <option value="DEPARTMENT">DEPARTMENT</option>
+                </select>
+              </c-col>
+            </c-row>
+
+            <c-row style="padding-top: 10px;">
+              <c-col md="2" *ngIf="selectedFilterOption == 'DEPARTMENT'">
+                <p style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;">Select Department :</p>
+              </c-col>
+              <c-col md="2" *ngIf="selectedFilterOption == 'ROLE'">
+                <p style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;" class="mb-3">Select
+                  Role :</p>
+              </c-col>
+              <c-col md="3" *ngIf="selectedFilterOption == 'DEPARTMENT'">
+                <select aria-label="Select department" value="ALL DEPARTMENTS" (change)="onDepartmentChange($event)"
+                  cSelect>
+                  <option [ngValue]="null">ALL DEPARTMENTS</option>
+                  <option *ngFor="let dep of departmentsList; let i = index" [ngValue]="dep.department_name">
+                    {{dep.department_name}}
+                  </option>
+                </select>
+              </c-col>
+              <c-col [md]="3" *ngIf="selectedFilterOption == 'ROLE'">
+                <select aria-label="Select department" (change)="onRoleChange($event)" cSelect>
+                  <option>ALL ROLES</option>
+                  <option *ngFor="let role of rolesList; let i = index" [ngValue]="role.name">
+                    {{role.name}}
+                  </option>
+                </select>
+              </c-col>
+            </c-row>
+          </c-row>
+
+          <div *ngIf="adminDataPieChart && adminDataPieChart.labels.length == 0" style="text-align: center;">
+            <p>No data exist</p>
+          </div>
+          <c-chart [height]="300" [data]="adminDataPieChart" [options]="chartOptions" type="pie" />
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>
+</c-container>

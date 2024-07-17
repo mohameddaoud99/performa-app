@@ -1,0 +1,32 @@
+.delete-icon {
+    color: red;
+    cursor: pointer;
+    margin-right: 10px; /* Espacement entre les deux boutons si nécessaire */
+}
+
+.delete-icon:hover {
+    color: darkred;
+    transform: scale(1.1);
+    filter: brightness(80%);
+}
+
+.red-icon:hover {
+    filter: brightness(80%);
+}
+
+.button-container {
+    display: flex;
+    align-items: center; /* Alignement vertical au centre si nécessaire */
+}
+
+.update-icon {
+    color: rgb(235, 155, 44);
+    cursor: pointer;
+    margin-right: 10px; /* Espacement entre les deux boutons si nécessaire */
+}
+
+.update-icon:hover {
+    color: rgb(190, 128, 14);
+    transform: scale(1.1);
+    filter: brightness(80%);
+}

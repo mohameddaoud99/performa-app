@@ -1,0 +1,144 @@
+<div class="container-fluid">
+    <div class="main-body">
+        <div class="row">
+
+            <div class="col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img src="./assets/img/avatars/profile.jpg" alt="User" class="rounded-circle p-1 bg-primary"
+                                width="110">
+                            <div class="mt-3" *ngIf="presentUser">
+                                <h5>{{presentUser.firstname+" "+presentUser.lastname}}</h5>
+                                <p class="text-secondary mb-1">{{presentUser.profile.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-9">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row" *ngIf="presentUser">
+                                <div class="col-lg-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3 ">
+                                            <h6>Firstname :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.firstname}}>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3 ">
+                                            <h6>Lastname :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.lastname}}>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3 ">
+                                            <h6>Email :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.email}}>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6>Profile :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.profile.name}}>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3" style="padding-right: 0;">
+                                            <h6>Department :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value="{{presentUser.department}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6>Role :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.role.name}}>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6>Grade :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control"
+                                                value={{presentUser.grade.gradeName}}>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6>Team :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.team}}>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Birthday :</h6>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input disabled type="text" class="form-control" value={{presentUser.birthday}}>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- <div class="row">
+                                <hr>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="button" class="btn btn-primary px-4" value="Save Changes">
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="d-flex align-items-center mb-3">Competencies</h5>
+                            <div *ngIf="averageMarksList && averageMarksList.length == 0">
+                                <p>No competency level exist.</p>
+                            </div>
+                            <div *ngFor="let average of averageMarksList  ;let i=index">
+                                <p>{{average.competencyName}}</p>
+                                <div class="progress mb-3" style="height: 5px">
+                                    <div class="progress-bar bg-primary" role="progressbar"
+                                        [style.width.%]="average.averageMark*20"
+                                        [attr.aria-valuenow]="average.averageMark*100" aria-valuemin="0"
+                                        aria-valuemax="100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

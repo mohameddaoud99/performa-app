@@ -1,0 +1,195 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-header>
+                <c-row>
+                    <c-col sm="8">
+                        <h4>{{evaluationToEvaluate.user.firstname +" "+evaluationToEvaluate.user.lastname }}'s
+                            Evaluation Submission</h4>
+                    </c-col>
+                    <c-col sm="4" style="text-align: right;" *ngIf="evaluationToEvaluate">
+
+                        <button (click)="generateExcelFile(evaluationToEvaluate.id)" cButton><svg cIcon name="cil-file"
+                                size="lg" title="Numbered List Icon"></svg> <span style="padding-bottom: 5px;"> Generate
+                                Excel File</span></button>
+                    </c-col>
+                </c-row>
+            </c-card-header>
+
+            <c-card-body>
+
+                <br>
+
+                <table [hover]="false" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0"
+                    *ngIf="evaluationToEvaluate">
+                    <thead cTableColor="dark">
+                        <tr>
+                            <th>#</th>
+                            <!-- <th>Categories</th> -->
+                            <th>Competencies</th>
+                            <th>Level</th>
+                            <th>Self-Rating</th>
+                            <th>Employee Comments</th>
+                            <th>Appraiser rating</th>
+                            <th>Appraiser Comments</th>
+                            <th>Weightage</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="evaluationToEvaluate.reviwerStepeSubmitted == false">
+                        <ng-container
+                            *ngFor="let gradeCompetency of evaluationToEvaluate.evaluationCompetencies; let i = index">
+                            <tr >
+                                <td><input type="checkbox" [(ngModel)]="gradeCompetency.selected"
+                                        style="width: 20px; height: 20px;" /></td>
+                                <td>{{ gradeCompetency.competency.name }}</td>
+                                <td>{{ gradeCompetency.level}}</td>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="gradeCompetency.employee_mark" disabled style="min-width: 80px;">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{ option }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.employee_comment"
+                                        rows="3" cols="70" disabled></textarea>
+                                </td>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="gradeCompetency.appraiser_mark"
+                                        [disabled]="!gradeCompetency.selected" style="min-width: 80px;">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{option}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.appraiser_comment"
+                                        rows="3" cols="70" [disabled]="!gradeCompetency.selected"></textarea>
+                                </td>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="gradeCompetency.weightage" [disabled]="!gradeCompetency.selected"
+                                        style="min-width: 85px;">
+                                        <option *ngFor="let option of weightageOptions" [value]="option">{{ option +
+                                            '%'}}</option>
+                                    </select>
+
+                                </td>
+                                <td>{{calculatePoints(gradeCompetency.id) | number:'1.0-3' }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+
+
+                    <tbody *ngIf="evaluationToEvaluate.reviwerStepeSubmitted == true">
+                        <ng-container
+                            *ngFor="let gradeCompetency of evaluationToEvaluate.evaluationCompetencies; let i = index">
+                            <tr>
+                                <td>
+                                    <input type="checkbox" [(ngModel)]="gradeCompetency.selected"
+                                        checked="gradeCompetency.selected" style="width: 20px; height: 20px;"
+                                        disabled />
+                                </td>
+                                <td>{{ gradeCompetency.competency.name }}</td>
+                                <td>{{ gradeCompetency.level }}</td>
+                                <td>{{ gradeCompetency.employee_mark }}</td>
+                                <td *ngIf="gradeCompetency.employee_comment">{{ gradeCompetency.employee_comment }}</td>
+                                <td *ngIf="!gradeCompetency.employee_comment"> ---- </td>
+                                <td>{{ gradeCompetency.appraiser_mark }}</td>
+                                <td *ngIf="gradeCompetency.appraiser_comment">{{ gradeCompetency.appraiser_comment }}
+                                </td>
+                                <td *ngIf="!gradeCompetency.appraiser_comment"> ---- </td>
+                                <td *ngIf="gradeCompetency.weightage"> {{ gradeCompetency.weightage }} % </td>
+                                <td *ngIf="!gradeCompetency.weightage"> ---- </td>
+                                <td>{{ calculatePoints(gradeCompetency.id) | number:'1.0-3' }}</td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tfoot >
+                        <tr >
+                            <td colspan="8" style="text-align: right;"><strong>Total points :</strong></td>
+                            
+                            <td>{{ calculateTotalPoints() | number:'1.0-3' }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="9">
+                                <label style="padding: 5px;"><strong>Notes:</strong></label>
+                                <textarea [(ngModel)]="evaluationToEvaluate.comments" class="form-control" 
+                                rows="4" placeholder="Put your notes here ..."
+                                [disabled]="evaluationToEvaluate.reviwerStepeSubmitted"
+                                >
+                                </textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="9">
+                                <label style="padding: 5px;"><strong>Rejection reasons:</strong></label>
+                                <textarea [(ngModel)]="evaluationToEvaluate.rejection_reasons" 
+                                disabled
+                                    class="form-control" rows="4">
+                                </textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="9">
+                                <label style="padding: 5px;"><strong>Objectives:</strong></label>
+                                <textarea [(ngModel)]="evaluationToEvaluate.objectives"
+                                [disabled]="evaluationToEvaluate.reviwerStepeSubmitted"
+                                    class="form-control" rows="4" placeholder=" Put objectives here ...">
+                                </textarea>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br>
+
+                <c-row *ngIf="evaluationToEvaluate && evaluationToEvaluate.reviwerStepeSubmitted == false" style="align-items: center;">
+
+                    <c-col [md]="12" style="display: flex;  align-items: center;">
+                       
+                            <button cButton color="success" (click)="toggleUpdateEvalutionModal()"
+                            style="margin-left: 10px;">Update</button>
+                            <button cButton color="warning" (click)="toggleSubmitEvalutioneModal()"
+                            style="margin-left: 10px;">Update & Submit</button>
+
+                    </c-col>
+                </c-row>
+
+
+                <c-modal [visible]="updateEvaluationModalVisibility"
+                    (visibleChange)="handleUpdateEvalutionModal($event)">
+                    <c-modal-header>
+                        <h5 cModalTitle>Save Evaluation as Draft Mode!</h5>
+                        <button (click)="toggleCLoseUpdateEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>Confirm <span style="font-weight: bold;">saving</span> this evalution ?</c-modal-body>
+                    <c-modal-footer>
+                        <button (click)="toggleCLoseUpdateEvalutionModal()" cButton color="secondary">
+                            No
+                        </button>
+                        <button (click)="updateEvaluation()" cButton color="danger">Yes</button>
+                    </c-modal-footer>
+                </c-modal>
+
+            
+
+                <c-modal id="liveDemoModal" [visible]="submitModalVisibility"
+                    (visibleChange)="handleSubmitEvalutionModal($event)">
+                    <c-modal-header>
+                        <h5 cModalTitle>Submit Evaluation !</h5>
+                        <button (click)="toggleCLoseSubmitEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>Confirm <span style="font-weight: bold;">submit</span> this evalution ?</c-modal-body>
+                    <c-modal-footer>
+                        <button (click)="toggleCLoseSubmitEvalutionModal()" cButton color="secondary">
+                            No
+                        </button>
+                        <button (click)="updateAndSubmitEvaluationData()" cButton color="danger">Yes</button>
+                    </c-modal-footer>
+                </c-modal>
+
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

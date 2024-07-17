@@ -1,0 +1,110 @@
+<c-row>
+  <c-col xs>
+
+    <c-alert *ngIf="!enableEvaluation" color="secondary" class="d-flex align-items-center" variant="solid">
+      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:">
+        <use xlink:href="#exclamation-triangle-fill" />
+      </svg>
+      <div> Cannot save or submit Evaluation Form !<br>Evaluation workflow process is pending or not started . </div>
+    </c-alert>
+
+    <c-alert *ngIf="enableEvaluation" color="success" variant="solid">
+      <h6>You are cordially invited to passing self evalution step.</h6>
+    </c-alert>
+
+    <c-card class="mb-4">
+      <c-card-header>
+        <c-row>
+          <c-col sm="8">
+            <h4>Evaluation(s) List</h4>
+          </c-col>
+          <c-col style="text-align: right;">
+            <!-- <button (click)="generateExcelFile(evaluationToEvaluate.id)" cButton><svg cIcon name="cil-file"
+              size="xl" title="Numbered List Icon"></svg> <span style="padding-bottom: 5px;"> Generate
+              Excel File</span></button> -->
+            <button [disabled]="!enableEvaluation" cButton [routerLink]="['/employee-evaluation']">
+              <span style="margin-left: 3px;" >Start evaluation
+                  <svg cIcon name="cil-chevron-right"size="lg" title="Numbered List Icon" ></svg>
+              </span>          
+            </button>
+             
+          </c-col>
+        </c-row>
+      </c-card-header>
+      <c-card-body>
+
+        <!-- <c-row class="mb-3">
+            <c-col [md]="6">
+              <c-row>
+                <c-col [md]="6">
+                  <h6 class="mb-0">Filter employees by role:</h6>
+                </c-col>
+                <c-col [md]="6"><select aria-label="Select department" (change)="onRoleChange($event)"  cSelect>
+                    <option *ngFor="let role of allRoles; let i = index" [ngValue]="role.name">{{role.name}}</option>                
+                  </select></c-col>
+              </c-row>
+            </c-col>
+          </c-row> -->
+
+        <!-- <table datatable [dtOptions]="dtoptions"></table> -->
+
+        <table [hover]="false" [responsive]="true" [striped]="true" align="middle" [cBorder]="1" bordred cTable
+          class="mb-0">
+          <thead cTableColor="dark">
+            <tr class="align-middle">
+              <th>Employee Submission Date</th>
+              <th>Appraiser</th>
+              <th>Appraiser JobTitle</th>
+              <th>Workflow Step</th>
+              <th>Action(s)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="evalualtion_List && evalualtion_List.length > 0; else emptyState">
+              <tr *ngFor="let evaluation of evalualtion_List; let i=index">
+
+                <td>{{ evaluation.date | date : " dd/MMMM/YYYY"}}</td>
+                <td>{{ evaluation.appraiser.firstname +" "+evaluation.appraiser.lastname }}</td>
+                <td>
+                  <c-badge color="primary">
+                    <span>{{ evaluation.appraiser.grade.job_title }}</span>
+                  </c-badge>
+                </td>
+                <td>
+                  <ng-container *ngIf="evaluation.draftMode == true && evaluation.submitted == false">
+                    <c-badge color="secondary" style="font-size:medium;"><span>Draft mode</span></c-badge>
+                  </ng-container>
+                  <ng-container *ngIf="evaluation.status=='Completed' && !evaluation.draftMode ">
+                    <c-badge color="success" style="font-size:medium;"><span>Completed</span></c-badge>
+                  </ng-container>
+                  <ng-container
+                    *ngIf="workflow_status !='' && evaluation.status !='Completed' && !evaluation.draftMode">
+                    <c-badge color="info" *ngIf="workflow_status"
+                      style="font-size:medium;"><span>{{workflow_status}}</span></c-badge>
+                  </ng-container>
+                </td>
+                <td>
+                  <button *ngIf="evaluation.draftMode" cButton color="warning" (click)="redirection(evaluation.id)">
+                    update
+                  </button>
+                  <button *ngIf="evaluation.status=='Completed' || !evaluation.draftMode " cButton color="secondary"
+                    (click)="redirection(evaluation.id)">
+                    details
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+            <ng-template #emptyState>
+              <tr>
+                <td colspan="6" class="text-center">No evaluations found.</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+
+
+
+  </c-col>
+</c-row>

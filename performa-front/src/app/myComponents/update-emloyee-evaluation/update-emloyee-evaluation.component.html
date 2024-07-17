@@ -1,0 +1,209 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-header>
+                <c-row>
+                    <c-col sm="12" style="text-align: center;">
+                        <h4>{{presentUser?.firstname +" "+presentUser?.lastname }}'s Evaluation</h4>
+                    </c-col>
+                </c-row>
+            </c-card-header>
+            <c-card-body>
+
+                <c-row style="align-items: center;">
+                    <c-col [md]="6" [lg]="3">
+                        <label cLabel for="su">Your supervisor: </label>
+                        <input cFormControl type="text" [(ngModel)]="evaluationToUpdate.id_appraiser"
+                            [value]="appraiserName" disabled />
+                    </c-col>
+                </c-row>
+                <br>
+
+                <table [hover]="false" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0"
+                    *ngIf="evaluationToUpdate">
+                    <thead cTableColor="dark" class="align-middle">
+                        <tr *ngIf="!evaluationToUpdate.submitted">
+                            <th>#</th>
+                            <!-- <th>Categories</th> -->
+                            <th class="text-center">Competencies</th>
+                            <th class="text-center">Level</th>
+                            <th class="text-center">Self-Rating</th>
+                            <th class="text-center">Employee Comments</th>
+                        </tr>
+                        <tr *ngIf="evaluationToUpdate.submitted">
+                            <th>#</th>
+                            <!-- <th>Categories</th> -->
+                            <th class="text-center">Competencies</th>
+                            <th class="text-center">Level</th>
+                            <th class="text-center">Self-Rating</th>
+                            <th class="text-center">Employee Comments</th>
+                            <!-- <th class="text-center">Appraiser rating</th>
+                            <th class="text-center">Appraiser Comments</th> -->
+                            <th class="text-center">Weightage</th>
+                            <!-- <th class="text-center">Points</th> -->
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="evaluationToUpdate.submitted==false">
+                        <ng-container *ngFor="let gradeCompetency of evaluationToUpdate.evaluationCompetencies">
+                            <tr>
+                                <td><input type="checkbox" [(ngModel)]="gradeCompetency.selected"
+                                        style="width: 20px; height: 20px;" /></td>
+                                <td>{{ gradeCompetency.competency.name }}</td>
+                                <td>{{ gradeCompetency.level }}</td>
+                                <td>
+                                    <select class="form-select" [(ngModel)]="gradeCompetency.employee_mark"
+                                        [disabled]="!gradeCompetency.selected" style="min-width: 80px;">
+                                        <option *ngFor="let option of ratingOptions" [value]="option">{{ option }}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea class="form-control" [(ngModel)]="gradeCompetency.employee_comment"
+                                        rows="3" cols="70" [disabled]="!gradeCompetency.selected"></textarea>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                    <tbody *ngIf="evaluationToUpdate.submitted">
+                        <ng-container
+                            *ngFor="let gradeCompetency of evaluationToUpdate.evaluationCompetencies; let i = index">
+                            <tr>
+                                <td><input type="checkbox" [(ngModel)]="gradeCompetency.selected"
+                                        checked="gradeCompetency.selected" style="width: 20px; height: 20px;"
+                                        disabled /></td>
+                                <td>{{ gradeCompetency.competency.name }}</td>
+                                <td class="text-center">{{ gradeCompetency.level }}</td>
+                                <td class="text-center">{{ gradeCompetency.employee_mark }}</td>
+
+
+                                
+
+                                <td class="text-center" *ngIf="gradeCompetency.employee_comment">
+                                    <textarea class="form-control" rows="3" cols="50" disabled>{{ gradeCompetency.employee_comment }}</textarea>
+                                </td>
+                                <td class="text-center" *ngIf="!gradeCompetency.employee_comment">
+                                    <textarea class="form-control" rows="3" cols="50" disabled></textarea>
+                                </td>
+                                <!-- <td>{{ gradeCompetency.appraiser_mark }}</td>
+                                <td *ngIf="gradeCompetency.appraiser_comment">{{ gradeCompetency.appraiser_comment }}</td>
+                                <td *ngIf="!gradeCompetency.appraiser_comment"> ---- </td> -->
+                                <td class="text-center" *ngIf="gradeCompetency.weightage"> {{ gradeCompetency.weightage }} % </td>
+                                <td class="text-center" *ngIf="!gradeCompetency.weightage">----</td>
+                                <!-- <td>{{ calculatePoints(gradeCompetency.appraiser_mark, gradeCompetency.weightage) |
+                                    number:'1.0-3' }}</td> -->
+                            </tr>
+                        </ng-container>
+                    </tbody>
+
+                    <tfoot *ngIf="evaluationToUpdate.submitted">
+                        <!-- <tr>
+                            <td colspan="8" style="text-align: right;"><strong>Total des points :</strong></td>
+                            <td>{{ evaluationToUpdate.final_mark}}</td>
+                        </tr> -->
+
+                        <tr>
+                            <td colspan="9">
+                                <label style="padding: 5px;"><strong>Objectives:</strong></label>
+                                <textarea [(ngModel)]="evaluationToUpdate.objectives"
+                                    [disabled]="evaluationToUpdate.submitted" class="form-control" rows="3"
+                                    placeholder="objectives">
+                                </textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="9">
+                                <button cButton (click)="moreDatailsToggleCollapse()" color="primary">
+                                    {{ moreDetailsCollapseVisibility ? 'Hide' : 'Show more details' }}
+                                </button>
+                                <br><br>
+                                <div *ngIf="moreDetailsCollapseVisibility" cCollapse>
+                                    <c-container style="text-align: center;" breakpoint="sm">
+                                        <c-row>
+                                            <c-col [md]="3"></c-col>
+                                            <c-col>
+
+                                                <table [cBorder]="2" bordered cTable class="narrow-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="background-color: #ebedef;" scope="row">Date Employee Signature :</th>
+                                                            <td *ngIf="!evaluationToUpdate.dateEmployeeSignature"> ------ </td>
+                                                            <td *ngIf="evaluationToUpdate.dateEmployeeSignature" cTableColor="success" scope="col">{{evaluationToUpdate.dateEmployeeSignature}}</td>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th style="background-color: #ebedef;" scope="row">Date Appraiser Validation :</th>
+                                                            <td *ngIf="!evaluationToUpdate.dateReviewerEvaluation"> ------ </td>
+                                                            <td *ngIf="evaluationToUpdate.dateReviewerEvaluation" cTableColor="success">{{evaluationToUpdate.dateReviewerEvaluation | date: 'dd-MM-yyyy'}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th style="background-color: #ebedef;" scope="row">Date Appraiser Signature :</th>
+                                                            <td *ngIf="!evaluationToUpdate.dateAppraiserSignature"> ------ </td>
+                                                            <td *ngIf="evaluationToUpdate.dateAppraiserSignature" cTableColor="success">{{evaluationToUpdate.dateAppraiserSignature}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </c-col>
+                                            <c-col [md]="3"></c-col>
+
+
+                                        </c-row>
+                                     
+                                    </c-container>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <br>
+
+                <c-row *ngIf="evaluationToUpdate && evaluationToUpdate.submitted==false" style="align-items: center;">
+
+
+                    <c-col [md]="12" style="display: flex;  align-items: center;">
+                        <button cButton color="warning" (click)="toggleUpdateEvalutioneModal()">Update</button>
+                        <button cButton color="success" (click)="toggleUpdateAndSubmitEvalutioneModal()"
+                            style="margin-left: 10px;">Update &
+                            Submit</button>
+                    </c-col>
+
+                </c-row>
+
+
+                <c-modal id="liveDemoModal" [visible]="updateModalVisibility"
+                    (visibleChange)="handleUpdateEvalutionModal($event)">
+                    <c-modal-header>
+                        <h5 cModalTitle>Save Evaluation !</h5>
+                        <button (click)="toggleCLoseUpdateEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>Confirm saving this evalution as <span style="font-weight: bold;">draft mode</span>
+                        ?</c-modal-body>
+                    <c-modal-footer>
+                        <button (click)="toggleCLoseUpdateEvalutionModal()" cButton color="secondary">
+                            No
+                        </button>
+                        <button (click)="UpdateEvaluationData()" cButton color="danger">Yes</button>
+                    </c-modal-footer>
+                </c-modal>
+
+                <c-modal id="liveDemoModal" [visible]="updateAndSubmitModalVisibility"
+                    (visibleChange)="handleUpdateAndSubmitEvalutionModal($event)">
+                    <c-modal-header>
+                        <h5 cModalTitle>Submit Evaluation !</h5>
+                        <button (click)="toggleCLoseUpdateAndSubmitEvalutionModal()" cButtonClose></button>
+                    </c-modal-header>
+                    <c-modal-body>Confirm <span style="font-weight: bold;">submit</span> this evalution ?</c-modal-body>
+                    <c-modal-footer>
+                        <button (click)="toggleCLoseUpdateAndSubmitEvalutionModal()" cButton color="secondary">
+                            No
+                        </button>
+                        <button (click)="updateAndSubmitEvaluationData()" cButton color="danger">Yes</button>
+                    </c-modal-footer>
+                </c-modal>
+
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

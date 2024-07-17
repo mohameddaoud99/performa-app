@@ -1,0 +1,46 @@
+<c-row>
+    <c-col xs>
+        <c-card class="mb-4">
+            <c-card-header *ngIf="presentUser">
+                <c-row >
+                    <c-col sm="12" style="text-align: center;">
+                        <h4 >{{presentUser.firstname +" "+presentUser.lastname }}'s competencies</h4>
+                    </c-col>
+                </c-row>
+            </c-card-header>
+            <c-card-body>
+
+          
+                <table  [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+                    <thead cTableColor="dark">
+                        <tr class="align-middle">
+                            <th class="text-center">Categories</th>
+                            <th class="text-center">Competencies</th>
+                            <th class="text-center">Level</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="profileCompetencies">
+                        <ng-container *ngIf="profileCompetencies && profileCompetencies.length > 0; else emptyState">
+                            <tr *ngFor="let profileCompetency of profileCompetencies" >
+                                <td class="text-center">{{ profileCompetency.competency.categoryCompetency.name }}</td>
+                                <td class="text-center">{{ profileCompetency.competency.name }}</td>
+                                <td class="text-center">
+                                    <c-badge color="primary" style="font-size:medium;">
+                                      <span>
+                                        {{ profileCompetency.level}}</span>
+                                    </c-badge>
+                                  </td>
+                               
+                            </tr>
+                        </ng-container>
+                        <ng-template #emptyState>
+                            <tr>
+                              <td colspan="6" class="text-center">No evaluations found.</td>
+                            </tr>
+                          </ng-template>
+                    </tbody>
+                </table>
+            </c-card-body>
+        </c-card>
+    </c-col>
+</c-row>

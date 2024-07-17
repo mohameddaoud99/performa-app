@@ -1,0 +1,151 @@
+<c-row>
+  <c-col xs>
+
+    <c-alert *ngIf="errorMessage" (visibleChange)="onVisibleChange($event)" [visible]="visible" color="danger"
+      dismissible fade variant="solid">
+      <ng-template cTemplateId="alertButtonCloseTemplate">
+        <button (click)="visible=false" cButtonClose dark></button>
+      </ng-template>
+      <ul>
+        <h6>
+          <li *ngFor="let item of errorMessage">{{item}}</li>
+        </h6>
+      </ul>
+    </c-alert>
+
+
+
+    <c-card class="mb-4">
+      <c-card-header>
+
+        <!-- <div *ngIf="errorMessage">
+          <ul>
+            <li *ngFor="let item of errorMessage">{{item }}</li>
+          </ul>
+        </div> -->
+
+        <c-row>
+          <c-col sm="8">
+            <h4>User(s) list</h4>
+          </c-col>
+          <c-col style="text-align: right;"><button (click)="toggleConfirmSendEmailsModal()"
+              [disabled]="!isAnyCheckboxSelected" cButton>Notify users</button></c-col>
+
+        </c-row>
+      </c-card-header>
+      <c-card-body>
+
+        <c-row class="mb-3">
+            <c-row >
+              <c-col md="2">
+                <p  style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;" class="mb-3">Filter employees by :</p>
+              </c-col>
+              <c-col md="2">
+                <select aria-label="Select option" cSelect [(ngModel)]="selectedFilterOption">
+                  <option value="ROLE">ROLE</option>
+                  <option value="DEPARTMENT">DEPARTMENT</option>
+                </select>
+              </c-col>
+            </c-row>
+
+            <c-row style="padding-top: 10px;">
+              <c-col md="2" *ngIf="selectedFilterOption == 'DEPARTMENT'">
+                <p style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;">Select Department :</p>
+              </c-col>
+              <c-col md="2" *ngIf="selectedFilterOption == 'ROLE'">
+                <p style="font-size: 16px; font-weight: bold; color: #333; margin-bottom: 15px;" class="mb-3">Select Role :</p>
+              </c-col>
+              <c-col md="3" *ngIf="selectedFilterOption == 'DEPARTMENT'">
+                <select aria-label="Select department" (change)="onDepartmentChange($event)" cSelect>
+                  <option>ALL DEPARTMENTS</option>
+                  <option *ngFor="let dep of departmentsList; let i = index" [ngValue]="dep.department_name">
+                    {{dep.department_name}}
+                  </option>
+                </select>
+              </c-col>
+              <c-col [md]="2" *ngIf="selectedFilterOption == 'ROLE'">
+                <select aria-label="Select department" (change)="onRoleChange($event)" cSelect>
+                  <option>ALL ROLES</option>
+                  <option *ngFor="let role of rolesList; let i = index" [ngValue]="role.name">
+                    {{role.name}}
+                  </option>
+                </select>
+              </c-col>
+            </c-row>
+        </c-row>
+
+        <!-- <table datatable [dtOptions]="dtoptions"></table> -->
+        <table [hover]="true" [responsive]="true" [striped]="true" align="middle" cTable class="mb-0 border">
+          <thead cTableColor="dark">
+            <tr>
+              <th style="margin-left: 10px !important;"><input type="checkbox" [(ngModel)]="parentSelector" [value]="-1"
+                  class="exclude-from-datatable" (change)="onChangeUser($event)" style="width: 20px; height: 20px;" />
+              </th>
+              <th>First name</th>
+              <th>Last name</th>
+              <th>Email</th>
+              <th>Job title</th>
+              <th>Department</th>
+              <th>Role</th>
+              <th>Grade</th>
+              <th>Birthday</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of updatedUsersList  ;let i=index">
+              <td><input type="checkbox" [(value)]="user.id" [checked]="user.isSelected"
+                  [disabled]="user.role.name === 'ROLE_ADMIN'" (change)="onChangeUser($event)"
+                  style="width: 20px; height: 20px;" />
+              </td>
+              <td>{{user.firstname}}</td>
+              <td>{{user.lastname}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.grade.job_title}}</td>
+              <td>{{user.department}}</td>
+
+              <td *ngIf="user.role.color == 'Red' ">
+                <c-badge color="danger" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td *ngIf="user.role.color == 'Green' ">
+                <c-badge color="success" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td *ngIf="user.role.color == 'Blue' ">
+                <c-badge color="info" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td *ngIf="user.role.color == 'Gray' ">
+                <c-badge color="secondary" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td *ngIf="user.role.color == 'Orange' ">
+                <c-badge color="warning" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+              <td *ngIf="user.role.color == 'Black' ">
+                <c-badge color="dark" style="font-size:medium;"><span>{{user.role.name}}</span></c-badge>
+              </td>
+
+              <td>{{user.grade.gradeName}}</td>
+              <td>{{user.birthday}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </c-card-body>
+    </c-card>
+
+    <c-modal id="liveDemoModal" [visible]="confirm_Send_Emails_Modal_Visibility"
+      (visibleChange)="handleConfirmSendEmailsModal($event)">
+      <c-modal-header>
+        <h5 cModalTitle>Notify employees</h5>
+        <button (click)="toggleCloseConfirmSendEmailsModal()" cButtonClose></button>
+      </c-modal-header>
+      <c-modal-body>Are you sure to send emails to selectionned users ?</c-modal-body>
+      <c-modal-footer>
+        <button (click)="toggleCloseConfirmSendEmailsModal()" cButton color="secondary">
+          No
+        </button>
+        <button (click)="onFilterButtonClick()" cButton color="success">Yes</button>
+      </c-modal-footer>
+    </c-modal>
+
+
+  </c-col>
+</c-row>
